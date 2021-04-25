@@ -1,6 +1,8 @@
 package org.ayros.chat_client;
 
+import lombok.AllArgsConstructor;
 import org.ayros.chat_client.model.Message;
+import org.ayros.chat_client.ui.ChatListener;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
@@ -8,7 +10,10 @@ import org.springframework.messaging.simp.stomp.StompSessionHandler;
 
 import java.lang.reflect.Type;
 
+@AllArgsConstructor
 public class MyStompSessionHandler implements StompSessionHandler {
+
+    private ChatListener listener;
 
     @Override
     public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
@@ -34,16 +39,6 @@ public class MyStompSessionHandler implements StompSessionHandler {
     @Override
     public void handleFrame(StompHeaders headers, Object payload) {
         Message msg = (Message) payload;
-        System.out.println(msg.getText());
+        listener.received(msg);
     }
-
-     /*WebSocketClient client = new StandardWebSocketClient();
-        WebSocketStompClient stompClient = new WebSocketStompClient(client);
-
-        stompClient.setMessageConverter(new MappingJackson2MessageConverter());
-
-        StompSessionHandler sessionHandler = new MyStompSessionHandler();
-        stompClient.connect(URL, sessionHandler);
-
-        new Scanner(System.in).nextLine();*/
 }

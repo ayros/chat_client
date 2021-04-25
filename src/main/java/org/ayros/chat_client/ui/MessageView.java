@@ -30,7 +30,6 @@ public class MessageView extends ListCell<Message> {
             if (mLLoader == null) {
                 mLLoader = new FXMLLoader(getClass().getResource("/ui/MessageListCell.fxml"));
                 mLLoader.setController(this);
-
                 try {
                     mLLoader.load();
                 } catch (IOException e) {
